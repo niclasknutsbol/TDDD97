@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<html lang = "en">
+  <head>	
+    <meta charset = "UTF-8">
+    <link rel="stylesheet" type="text/css" href="client.css">
+    <script src="serverstub.js" type="text/javascript"></script>
+    <script src="client.js" type="text/javascript"></script>
+
+   <script id = "show_browse" type = "text/view">
+
+
+          <textarea id = "message_post_browse" rows = "5" cols = "40" max_length="90">Your message here...</textarea>
+          <button type="button" id="post_button_browse"> Post </button>
+          <button type="button" id="update_wall_browse"> Update </button>
+
+          <textarea readonly id = "message_read_browse" rows = "20" cols = "40" max_length="90"></textarea>
+	  
+
+
+
+
+
+
+
+
+
+   <form id="user_info_browse">
+	    <table id="userinfo_table_browse" style="width:100%">
+	      <tr>
+		<td>Firstname</td>
+		<td id="profile_name_browse"></td>		
+	      </tr>
+	      <tr>
+		<td>Familyname</td>
+		<td id="profile_family_browse"></td>		
+	      </tr>
+	      <tr>
+		<td>Gender</td>
+		<td id="profile_gender_browse"></td>
+	      </tr>
+	      <tr>
+		<td>Country</td>
+		<td id="profile_country_browse"></td>
+	      </tr>
+	      <tr>
+		<td>City</td>
+		<td id="profile_city_browse"></td>
+	      </tr>
+	      <tr>
+		<td>Email</td>
+		<td id="profile_email_browse"></td>
+	      </tr>
+	    </table>
+          </form>
+
+
+
+
+
+ 
+        </div>
+
+   </script>
+
+   <script id = "empty" type = "text/view">
+      <!-- This div should be empty!
+       When an invalid email address has been enter in lookup, nothing shall be viewed.
+
+      -->
+   </script>
+
+
+    <script id="welcomeview" type="text/view">
+      <div class="wrapper">
+	<div class="elements">
+	  <img class="logo" src="wimage.png" />
+	  <form id = "sign-in" method="post">
+	    <br>
+	    <label for="email">Email: </label> <input type="email" name="email" id="email1" required> <br />
+	    
+	    <label for="password1">Password: </label> <input type="password" name="password" id="password1" oninput="validateSignIn();" required> <br />
+	    <input type="submit" value="LogIn" >
+	  </form>
+
+	  <form id = "sign-up" method="post">
+	    <div class="heading">
+	      <p id="desc">Sign up here</p>
+	    </div>
+	    <label for="firstname">First name: </label>  <input type="text" name="firstname" id="firstname" required> <br />
+
+	    <label for="familyname">Family name: </label> <input type="text" name="familyname" id ="familyname" required> <br />
+
+	    <label for="gend">Gender: </label> 
+	    <select id="gend" name="gender" form="sign-up">
+	      <option value="female">Female</option>
+	      <option value="male">Male</option>
+	    </select>
+	    <br />
+	    <label for="city">City: </label> <input type="text" name="city" id="city" required> <br />
+	    <label for="country">Country: </label>  <input type="text" name="country" id="country" required> <br />
+	    <label for="email">Email: </label> <input type="email" name="email" id="email2" required oninput="this.setCustomValidity('');"> </br>
+	    <label for="password2">Password: </label> <input type="password" name="password" id="password2" required oninput="validateSignUp();"> <br />
+	    <label for="repeat_psw">Repeat PSW: </label> <input type="password" name="repeat_psw" id="repeat_psw" required oninput = "validateSignUp();"> <br />
+	    <input type="submit" value="SignUp"> <br />
+	  </form>
+	</div>
+      </div>
+    </script>
+
+    <script id="profileview" type="text/view">
+
+      <base href="#home_panel">
+      <div class="heading">
+	<p>Twidder!</p>
+      </div>
+      <ul class="tabs" data-tab>
+	<li class="tab_title active"><a href="#home_panel">Home</a></li>
+	<li class="tab_title"><a href="#browse_panel">Browse</a></li>
+	<li class="tab_title"><a href="#account_panel">Account</a></li>
+      </ul>
+
+      <div class="panel" id="e_panel">
+
+
+
+
+
+
+
+ <!-- ---------- HOME PANEL ---------------------- -->
+   
+	<div class="home_panel" id="home_panel">
+          <p id="home_desc">Home </p>
+          <form id="user_info">
+	    <table id="userinfo_table" style="width:100%">
+	      <tr>
+		<td>Firstname</td>
+		<td id="profile_name"></td>		
+	      </tr>
+	      <tr>
+		<td>Familyname</td>
+		<td id="profile_family"></td>		
+	      </tr>
+	      <tr>
+		<td>Gender</td>
+		<td id="profile_gender"></td>
+	      </tr>
+	      <tr>
+		<td>Country</td>
+		<td id="profile_country"></td>
+	      </tr>
+	      <tr>
+		<td>City</td>
+		<td id="profile_city"></td>
+	      </tr>
+	      <tr>
+		<td>Email</td>
+		<td id="profile_email"></td>
+	      </tr>
+	    </table>
+          </form>
+
+          <textarea id = "message_post" rows = "5" cols = "40" max_length="90">Your message here...</textarea>
+          <button type="button" id="post_button"> Post </button>
+          <button type="button" id="update_wall"> Update </button>
+
+          <textarea readonly id = "message_read" rows = "20" cols = "40" max_length="90"></textarea>
+	  
+        </div>
+
+ <!-- ------------ BROWSE PANEL --------------------- -->
+
+        <div class="browse_panel" id="browse_panel">           
+        	  <form id = "lookup_profile" method="post">
+	             <label> User email </label>
+	             <input type="email" id="email4" required> <br />
+
+	             <input type="submit" value="Show users profile" >
+                  </form>
+
+                  <div id="content_browser">
+                  </div> <!--content_browser-->
+
+        </div> <!-- browse_panel -->
+
+ <!-- ------------ ACCOUNT PANEL --------------------- -->
+
+        <div class = "account_panel" id="account_panel">
+
+	  <p id="account_desc">...Change password</p>
+
+	  <form id = "change_psw" method="post">
+	    <label for="password3">Old password: </label>
+	    <input type="password" name="old_password" id="password3" oninput="validateSignIn(this)" required> <br />
+	    
+	    <label for="password4">New password: </label>
+	    <input type="password" name="old_password" id="password4" oninput="validateSignIn(this)" required> <br />
+	    
+	    <label for="password5">Confirm PSW: </label>
+	    <input type="password" name="confirm_password" id="password5" oninput="validateSignIn(this)" required> <br />
+	    
+	    <input type="submit" value="Apply" >
+	  </form>
+	  <button id="logout" > Log out </button>
+
+
+  <div id="drop">Drop files here.</div>
+
+	</div> <!--account_panel -->
+    </script>
+    
+    <title>Twidder</title>
+
+  </head>
+
+  <body>
+    <div id="content"></div>
+  </body>
+
+
+</html>

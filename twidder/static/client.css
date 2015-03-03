@@ -1,0 +1,148 @@
+.wrapper {
+	width: 600px;
+	float: left;
+    position: relative;
+    left: 50%;
+}
+
+.elements {
+    margin-left: -50%;
+}
+
+img.logo {
+	position: relative;
+	float: left;
+	clear: left;
+    top: 100px;
+	margin-right: 10px;
+	border: 1px solid black;
+	border-top-left-radius: 0.5em;
+	border-bottom-left-radius: 0.5em;
+        height:398px;
+        width:338px;
+}
+
+form {
+	display: table;
+	position: relative;
+	width: 250px;
+	background-color: #fff;	
+	border: 1px solid black;
+	border-top-right-radius: 0.5em;
+	border-bottom-right-radius: 0.5em;
+	padding: 2px;
+        width:244px;
+}
+
+#sign-in {
+	top: 100px;
+        height: 94px;
+}
+
+#sign-up {
+	top: 110px;
+        height:284px;
+
+}
+
+label{
+	display: inline-block;  
+	text-align: left; 
+	margin-bottom: 0.3em;
+}
+
+form input, select {
+	width: 50%;
+	float: right;
+	clear: right;
+}
+
+.heading { 
+   text-align: center;
+   font-size: 120%;
+   font-weight: bold;
+}
+
+.tabs {
+	position: relative;
+	width: 15rem;
+	margin-left: auto;
+    margin-right: auto;
+	list-style-type: none; 
+}
+
+li {
+	display: inline;
+}
+
+a {
+    width: 6em;
+    color: black;
+    padding: 0.2em 0.6em;
+    text-align: center;
+    text-decoration: none; //do not underline text
+}
+
+a:hover {
+	background-color: #2BC83E;
+	border-radius: 0.4em;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+    background: linear-gradient(white,#2B58C8);
+}
+
+.account_panel:not(:target)
+{
+   display: none;
+}
+
+.account_panel:target
+{
+   display: block;
+}
+
+
+.home_panel:target
+{
+   display: block;
+}
+
+
+.home_panel:not(:target)
+{
+   display: none;
+}
+
+.browse_panel:target
+{
+   display: block;
+}
+
+.browse_panel:not(:target)
+{
+   display: none;
+}
+
+#message_box {
+	display: block;
+	resize: none;
+}
+
+#post_button {
+	width: 3em;
+}
+
+
+#drop {
+  min-height: 150px;
+  width: 250px;
+  border: 1px solid blue;
+  margin: 10px;
+  padding: 10px;
+}
+
+
+
