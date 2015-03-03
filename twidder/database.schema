@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS accounts;
 DROP TABLE IF EXISTS messages;
 DROP TABLE IF EXISTS users_online;
-DROP TABLE IF EXISTS user_picture
+DROP TABLE IF EXISTS user_media
 
 CREATE TABLE accounts
    (email VARCHAR(50) primary key,
@@ -26,9 +26,8 @@ CREATE TABLE users_online
      CONSTRAINT sender FOREIGN KEY(email) references accounts (email )
      );
 
-CREATE TABLE user_picture
+CREATE TABLE user_media
    (
-   email VARCHAR(50)
-   image BLOB,
-   CONSTRAINT sender FOREIGN KEY(email) references accounts (email )
+   mediaID INTEGER PRIMARY KEY
+   email VARCHAR(50) NOT NULL
   );

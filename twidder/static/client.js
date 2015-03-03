@@ -385,6 +385,8 @@ init_profile_functions = function()
 
         return false;
     }
+
+   dropbox();
 }; //PROFILE VIEW
 
 
@@ -525,4 +527,94 @@ lookup_profile_functions = function()
       }
       xmlhttp.send(data);
    }; // end function
+};
+
+
+
+
+
+function dropbox()
+{
+   function handleFiles( files )
+   {
+ 
+
+  for (var i = 0; i < files.length; i++) 
+   {
+      var file = files[i];
+      var objectURL = window.URL.createObjectURL(file);
+
+      alert(objectURL);
+
+ 
+      var img = document.createElement("img");
+      //img.classList.add("obj");
+      img.file = file;
+
+      document.getElementById("drop").appendChild(img);
+      var temp = document.getElementById("drop").width
+      
+ var reader = new FileReader();
+       reader.onload = (function(aImg) { return function(e){ aImg.height = 150; aImg.src = e.target.result;  aImg.width = 250}; } )  (img);
+       reader.readAsDataURL(file);
+
+
+      var xmlhttp = new XMLHttpRequest();
+      xmlhttp.open("POST", "/download_file", true);
+
+      var token = localStorage.getItem("token");
+
+      var data = new FormData();
+      data.append('token', token);
+      data.append('URL', objectURL);
+
+
+      xmlhttp.onreadystatechange = function () //Call the function when the state changes.
+      {
+          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+              var response = JSON.parse(xmlhttp.responseText);
+              alert("from server");
+              if (response.success === true) 
+                  {
+                     
+                  }
+              }
+          }
+     
+      xmlhttp.send(data);
+
+   }
+}
+
+
+
+   var dropbox;
+   dropbox = document.getElementById("drop");
+   dropbox.addEventListener("dragenter", dragenter, false);
+   dropbox.addEventListener("dragover", dragover, false);
+   dropbox.addEventListener("drop", drop, false);
+
+   function dragenter(e) 
+   {
+      e.stopPropagation();
+      e.preventDefault();
+   };
+
+   function dragover(e) 
+   {
+      e.stopPropagation();
+      e.preventDefault();
+   };
+
+   function drop(e) 
+   {
+      e.stopPropagation();
+      e.preventDefault();
+
+      var dt = e.dataTransfer;
+      var files = dt.files;
+
+      handleFiles(files);
+      
+   };
 };

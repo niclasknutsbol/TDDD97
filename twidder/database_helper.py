@@ -1,5 +1,7 @@
 import sqlite3
 from flask import g
+import urllib
+
 
 def connect_db():
     return sqlite3.connect("database.db")
@@ -217,3 +219,22 @@ def remove_all_online():
     c.execute("DELETE FROM users_online" )
     c.commit()
     return True
+
+
+def downloadFile( token, url ):
+
+   c = get_db()
+   #Is user online
+   email = get_email( token )
+   if( email == None ):
+      return {"success": False}
+ 
+   cur = c.execute("insert into user_media (email) values (?)",[email] )
+   cur.commit()
+   print(cursor.lastrowid)
+   
+   print type(url);
+   #url  = url[4, url.len()];
+   print url;
+   urllib.urlretrieve( "http://www.writerscentre.com.au/wp-content/uploads/2013/12/Writing-Picture-Books-Pic-2.jpeg", "twidder/media/local-filename.png")
+   return {"success" : True }

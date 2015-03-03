@@ -278,5 +278,35 @@ def remove_user():
     return "from server"
 
 
+@app.route('/download_file', methods = ['POST'] )
+def download_file():
+
+   if 'token' not in request.form or\
+      'URL'   not in request.form:
+      return json.dumps({"success": False, "message": "Wrong form man!"})
+
+   token = request.form['token']
+   url   = request.form['URL']
+
+   print url;
+   result = downloadFile( token, url );
+ 
+   if result["success"] == False:
+        return json.dumps({"success": False, "message": "You are not logged in."})
+   else:
+        return json.dumps({"success": True, "message": "Url exist"})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 clients = {}
