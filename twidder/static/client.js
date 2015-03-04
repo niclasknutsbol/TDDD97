@@ -119,14 +119,15 @@ document.getElementById("sign-in").onsubmit = function( e )
                     console.log( evt.data );
                     if( evt.data === "terminate" ) {
 			            SignOut();
-			            socket.close();
+			            //socket.close();
+                        socket.send("terminate");
                         console.log("Socket closed")
 		            }
                  };
 
                 socket.onclose = function() {
-                    socket.send("close");
-		};
+                   //socket.send("close");
+		         };
             }
         }
     }

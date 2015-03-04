@@ -222,19 +222,19 @@ def remove_all_online():
 
 
 def downloadFile( token, url ):
-
+   
    c = get_db()
    #Is user online
    email = get_email( token )
+
    if( email == None ):
       return {"success": False}
  
-   cur = c.execute("insert into user_media (email) values (?)",[email] )
-   cur.commit()
-   print(cursor.lastrowid)
-   
-   print type(url);
-   #url  = url[4, url.len()];
-   print url;
-   urllib.urlretrieve( "http://www.writerscentre.com.au/wp-content/uploads/2013/12/Writing-Picture-Books-Pic-2.jpeg", "twidder/media/local-filename.png")
+   cur = c.execute("insert into user_media (email) values (?)",[email[0] ] )
+   c.commit()
+ 
+   print(cur.lastrowid)
+   print url
+   print type(url)
+   #urllib.urlretrieve( url, "twidder/media/local-filename.png")
    return {"success" : True }

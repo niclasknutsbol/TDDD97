@@ -11,13 +11,13 @@ app = Flask(__name__)
 app.debug = True
 
 @app.route('/')
-def index():
-    #init_db(app) WE DO NOT RESET THE DATABASE IN INDEX
+def index(): 
+    #init_db(app) #WE DO NOT RESET THE DATABASE IN INDEX
     return app.send_static_file( "client.html" )
 
 @app.route('/<file>')
 def index_2(file):
-    #init_db(app) WE DO NOT RESET THE DATABASE IN INDEX
+    #init_db(app) #WE DO NOT RESET THE DATABASE IN INDEX
     return app.send_static_file( file )
 
 @app.route('/log_in', methods=[ 'GET', 'POST'] )
@@ -71,10 +71,16 @@ def api():
     if request.environ.get('wsgi.websocket'):
         ws = request.environ.get('wsgi.websocket')
 
+        #First receive is always a token
         token = ws.receive()
         clients[ token ] = ws
-        temp = ws.receive() #terminate
-        print (temp)
+
+        while True: #May add more functionality later...
+           temp = ws.receive()
+           if( temp == "terminate" ):
+              break;
+    #Debugging
+    print (temp)
     print "All clients: "
     print clients
 
