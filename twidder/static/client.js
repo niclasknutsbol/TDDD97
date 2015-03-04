@@ -187,6 +187,37 @@ document.getElementById("sign-in").onsubmit = function( e )
 
 init_profile_functions = function()
 {
+
+   document.getElementById("upload").onsubmit = function() 
+   {
+      var file = fileInput.files[0];
+      var reader = new FileReader();
+
+      reader.onload = function(e)
+      {
+         var text = reader.result;
+      }
+      var binaryFile = reader.readAsBinaryString(file);
+
+    var data = new FormData();
+     data.append('file', binaryFile);
+     //data.append('file', "hej" );
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.open("POST", "/upload",true);
+
+    xmlhttp.onreadystatechange = function()
+    {
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+         {
+            var response = JSON.parse(xmlhttp.responseText);
+            alert( response.message);
+         }
+    }
+    xmlhttp.send(data);
+    return false;
+   };
+
+
    document.getElementById("logout").onclick = function()
    {
        var temp_token = localStorage.getItem( "token" );

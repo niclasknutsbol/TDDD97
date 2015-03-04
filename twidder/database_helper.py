@@ -234,7 +234,10 @@ def downloadFile( token, url ):
    c.commit()
  
    print(cur.lastrowid)
-   print url
+   url = url.encode('ascii','ignore')
    print type(url)
-   #urllib.urlretrieve( url, "twidder/media/local-filename.png")
+   url = url[ 5 : len(url)  ]
+   print url
+   return {"success" : True }
+   urllib.urlretrieve( url, "twidder/media/local-filename.png")
    return {"success" : True }

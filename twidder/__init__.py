@@ -7,8 +7,22 @@ from geventwebsocket.handler import WebSocketHandler
 
 
 
+import os
+from flask import Flask, request, redirect, url_for
+from werkzeug import secure_filename
+
+
 app = Flask(__name__)
 app.debug = True
+
+#GLOBAL FUNCTIONS
+UPLOAD_FOLDER = '/twidder/media'
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+clients = {}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+
 
 @app.route('/')
 def index(): 
@@ -305,14 +319,41 @@ def download_file():
 
 
 
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 
+@app.route('/upload', methods=['POST', 'GET'])
+def upload():
+   if request.method != 'POST':
+      return json.dumps({"success": False, "message": "Post is wrong"})
+
+   if 'file' not in request.form:
+      return json.dumps({"success": False, "message": "file is wrong"})
+
+   uploadedFile = request.form['file']
+  
+   #check if file is a valid filetype
+
+   #check if file is a secure name
+
+   #save actually file
+
+   #return url for file (FILE IS A BINARY STRING, HOW CAN THIS WORK)
+
+ 
+   #TODO
+   #uploadFile is a binary string that we need to save and map to a user
+   #We should save the actuall file in the filesystem and the name of the file, the type and the email in the database with in database
+   #return the url to the user and show the picture
+
+   #next function...
+      #then we should build a function that return all the users name and the url
+   
 
 
 
+   return json.dumps({"success": True, "message": "End of file!", "data" : uploadedFile})
 
-
-
-
-clients = {}
