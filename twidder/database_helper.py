@@ -31,7 +31,13 @@ def sign_in(email, password):
     elif (password not in rv): #Invalid password
         return False
     else:
-        return True
+
+      #Update how many time a user has been online
+      cur = c.execute("UPDATE accounts SET times_online = times_online + 1")
+      cur.lastrowid
+      print lastrowid  
+      #Send new data to user
+      return True
 
 def new_user_online( email, token):
     c = get_db()
@@ -241,3 +247,23 @@ def downloadFile( token, url ):
    return {"success" : True }
    urllib.urlretrieve( url, "twidder/media/local-filename.png")
    return {"success" : True }
+
+
+def get_live_data( token ):
+   c = get_db()
+   #Is user online
+   email = get_email( token )
+
+   if( email == None ):
+      return {"success": False}
+
+   c = get_db()
+   cur = c.execute("select times_online, post_by_me, post_to_me from users_online where email = ?",[email])
+   rv = cur.fetchall()
+   c.commit()
+
+   if rv == None:
+      return {"success": False, "message": "Undefined error"}
+   else:
+      return {"success": True,  "message":  "Live data", "data", rv}
+   

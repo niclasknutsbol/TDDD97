@@ -4,7 +4,7 @@ import json
 from database_helper import *
 from flask import request
 from geventwebsocket.handler import WebSocketHandler
-
+import sys
 
 
 import os
@@ -75,9 +75,8 @@ def log_in():
 
     if success != True:
         return json.dumps({"success" : False,"message": "Password or email is invalid","data":''})
-
-
-    new_user_online( email, newToken)
+   
+   new_user_online( email, newToken)
     return json.dumps({"success":True,"message":"You have succesfully loged in","data":newToken})
 
 @app.route('/api')
@@ -298,43 +297,19 @@ def remove_user():
     return "from server"
 
 
-@app.route('/download_file', methods = ['POST'] )
-def download_file():
-
-   if 'token' not in request.form or\
-      'URL'   not in request.form:
-      return json.dumps({"success": False, "message": "Wrong form man!"})
-
-   token = request.form['token']
-   url   = request.form['URL']
-
-   print url;
-   result = downloadFile( token, url );
- 
-   if result["success"] == False:
-        return json.dumps({"success": False, "message": "You are not logged in."})
-   else:
-        return json.dumps({"success": True, "message": "Url exist"})
-
-
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-
 @app.route('/upload', methods=['POST', 'GET'])
 def upload():
    if request.method != 'POST':
       return json.dumps({"success": False, "message": "Post is wrong"})
 
+   print "1"
+   print request.form.keys()
    if 'file' not in request.form:
       return json.dumps({"success": False, "message": "file is wrong"})
 
-   uploadedFile = request.form['file']
-  
+   print "2"
+   upLoadedFile = request.form['file']
+   print "we have the file"
    #check if file is a valid filetype
 
    #check if file is a secure name
@@ -355,5 +330,26 @@ def upload():
 
 
 
-   return json.dumps({"success": True, "message": "End of file!", "data" : uploadedFile})
+   return json.dumps({"success": True, "message": "End of file!", "data" : upLoadedFile})
 
+def live( token ):
+
+  #number of time i been online
+  #number of posts by me
+  #number of post to me
+   
+   result = get_live_data( token )
+
+   if result["success"] == False:
+        return json.dumps({"success": False, "message": "You are not logged in.", "data", ""})
+   elif result["success"] == None:
+        return json.dumps({"success": False, "message": "No such user.", "data", ""})
+   else:
+        return json.dumps({"success": True, "message": "Posted", "data", result.data })
+
+
+
+
+
+
+ 
