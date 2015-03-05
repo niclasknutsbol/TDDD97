@@ -71,13 +71,13 @@ def log_in():
             clients.pop( token, None )
             # socket.close()
 
-    success =  sign_in( email, password)
+    response =  sign_in( email, password)
 
-    if success != True:
-        return json.dumps({"success" : False,"message": "Password or email is invalid","data":''})
+    if response["success"] != True:
+        return json.dumps({"success" : False,"message": "Password or email is invalid","data":""})
    
-   new_user_online( email, newToken)
-    return json.dumps({"success":True,"message":"You have succesfully loged in","data":newToken})
+    new_user_online( email, newToken)
+    return json.dumps({"success":True,"message":"You have succesfully loged in","data":newToken, "live" : response["live"]})
 
 @app.route('/api')
 def api():
@@ -283,6 +283,10 @@ def post_message():
     elif result["success"] == None:
         return json.dumps({"success": False, "message": "No such user."})
     else:
+       #update database
+
+       #send new data to sender and receiver
+
         return json.dumps({"success": True, "message": "Posted" })
 
 #if __name__ == '__main__':
@@ -341,11 +345,11 @@ def live( token ):
    result = get_live_data( token )
 
    if result["success"] == False:
-        return json.dumps({"success": False, "message": "You are not logged in.", "data", ""})
+      return json.dumps({"success": False, "message": "You are not logged in.", "data" : ""})
    elif result["success"] == None:
-        return json.dumps({"success": False, "message": "No such user.", "data", ""})
+      return json.dumps({"success": False, "message": "No such user.", "data" : ""})
    else:
-        return json.dumps({"success": True, "message": "Posted", "data", result.data })
+      return json.dumps({"success": True, "message": "Posted", "data" : result.data })
 
 
 

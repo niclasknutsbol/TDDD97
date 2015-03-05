@@ -105,7 +105,7 @@ document.getElementById("sign-in").onsubmit = function( e )
             {
                 localStorage.setItem( "token", response.data );
                 localStorage.setItem( "email", email_ );
-                alert( response.live );
+                alert( responce.live );
                 email1.setCustomValidity("");
                 signIn();
                 var socket = new WebSocket("ws://127.0.0.1:5000/api");

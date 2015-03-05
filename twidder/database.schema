@@ -10,10 +10,10 @@ CREATE TABLE accounts
     familyname VARCHAR(50),
     gender BIT,
     city VARCHAR(50),
-    country VARCHAR(50)
-    times_online INT
-    post_by_me INT
-    post_to_me INT
+    country VARCHAR(50),
+    times_online INTEGER DEFAULT 0,
+    post_by_me   INTEGER DEFAULT 0,
+    post_to_me   INTEGER DEFAULT 0
     );
 
 CREATE TABLE messages

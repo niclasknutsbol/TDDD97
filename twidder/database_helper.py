@@ -27,18 +27,17 @@ def sign_in(email, password):
     c.commit()
 
     if rv == None: #User does not exist
-        return False
+      return {"success": False} 
     elif (password not in rv): #Invalid password
-        return False
+      return {"success": False}         
     else:
 
       #Update how many time a user has been online
-      cur = c.execute("UPDATE accounts SET times_online = times_online + 1")
-      cur.lastrowid
-      print lastrowid  
-      #Send new data to user
-      return True
+      cur = c.execute("UPDATE accounts SET times_online = times_online + 1 WHERE accounts.email = ?", [email] )
+      c.commit()
 
+      return get_live_data( email )
+            
 def new_user_online( email, token):
     c = get_db()
     c.execute("INSERT INTO users_online(email,token) VALUES (?,?)",[email,token])
@@ -184,8 +183,16 @@ def add_message(token,reciever,message):
 
 
     c.execute("insert into messages (sender,receiver,message) values (?,?,?)",[sender[0],reciever,message])
+   
+    #c.execute("UPDATE accounts SET post_to_me = post_to_me + 1 WHERE email = ?",[reciever]) 
+    #c.execute("UPDATE accounts SET post_by_me = post_by_me + 1 WHERE email = ?",[sender[0] ] )
+    c.execute("SELECT post_to_me FROM accounts WHERE email = ?",[reciever])
     c.commit()
-    return {"success": True}
+    rv = cur.fetchone()
+
+    print rv
+
+    return {"success": True, "data" : rv}
 
 
 
@@ -249,21 +256,15 @@ def downloadFile( token, url ):
    return {"success" : True }
 
 
-def get_live_data( token ):
+def get_live_data( email ):
+   print email
    c = get_db()
-   #Is user online
-   email = get_email( token )
-
-   if( email == None ):
-      return {"success": False}
-
-   c = get_db()
-   cur = c.execute("select times_online, post_by_me, post_to_me from users_online where email = ?",[email])
+   cur = c.execute("select * from accounts where email = ?", [email] )
    rv = cur.fetchall()
    c.commit()
-
+   print rv
    if rv == None:
       return {"success": False, "message": "Undefined error"}
    else:
-      return {"success": True,  "message":  "Live data", "data", rv}
+      return {"success": True,  "message":  "Live data", "live" : rv}
    
