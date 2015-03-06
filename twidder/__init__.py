@@ -279,15 +279,13 @@ def post_message():
     result = add_message( token, email, message)
 
     if result["success"] == False:
-        return json.dumps({"success": False, "message": "You are not logged in."})
+       return json.dumps({"success": False, "message": "You are not logged in."})
     elif result["success"] == None:
-        return json.dumps({"success": False, "message": "No such user."})
+       return json.dumps({"success": False, "message": "No such user."})
     else:
-       #update database
-
-       #send new data to sender and receiver
-
-        return json.dumps({"success": True, "message": "Posted" })
+       #find socket and send to receiver if he is online
+       #we should change the key to token from email for users{}!
+       return json.dumps({"success": True, "message": "Posted" })
 
 #if __name__ == '__main__':
 #    app.run()

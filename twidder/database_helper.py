@@ -184,15 +184,17 @@ def add_message(token,reciever,message):
 
     c.execute("insert into messages (sender,receiver,message) values (?,?,?)",[sender[0],reciever,message])
    
-    #c.execute("UPDATE accounts SET post_to_me = post_to_me + 1 WHERE email = ?",[reciever]) 
-    #c.execute("UPDATE accounts SET post_by_me = post_by_me + 1 WHERE email = ?",[sender[0] ] )
-    c.execute("SELECT post_to_me FROM accounts WHERE email = ?",[reciever])
-    c.commit()
+    c.execute("UPDATE accounts SET post_to_me = post_to_me + 1 WHERE email = ?",[reciever]) 
+    c.execute("UPDATE accounts SET post_by_me = post_by_me + 1 WHERE email = ?",[sender[0] ] )
+    cur = c.execute("SELECT post_to_me FROM accounts WHERE email = ?",[reciever])
+ 
     rv = cur.fetchone()
+    c.commit()
+    print "###"
+    print reciever
+    print rv[0]
 
-    print rv
-
-    return {"success": True, "data" : rv}
+    return {"success": True, "data" : rv[0]}
 
 
 
