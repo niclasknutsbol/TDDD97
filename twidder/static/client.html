@@ -6,8 +6,8 @@
     <link rel="stylesheet" type="text/css" href="client.css">
     <script src="serverstub.js" type="text/javascript"></script>
     <script src="client.js" type="text/javascript"></script>
-
-   <script id = "show_browse" type = "text/view">
+    <script src="Chart.js"></script>
+    <script id = "show_browse" type = "text/view">
 
 
           <textarea id = "message_post_browse" rows = "5" cols = "40" max_length="90">Your message here...</textarea>
@@ -166,7 +166,12 @@
           <button type="button" id="update_wall"> Update </button>
 
           <textarea readonly id = "message_read" rows = "20" cols = "40" max_length="90"></textarea>
-	  
+
+
+
+         <div id = live_data_box></div>
+
+
         </div>
 
  <!-- ------------ BROWSE PANEL --------------------- -->
@@ -223,6 +228,8 @@
 
   <body>
     <div id="content"></div>
+<canvas id="myChart" width="400" height="400"></canvas>
+
   </body>
 
 

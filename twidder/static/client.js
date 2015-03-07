@@ -27,6 +27,11 @@ signIn = function()
    document.getElementById("update_wall").click();
 };
 
+setupLiveData_posts = function( value_ )
+{
+   document.getElementById("live_data_box").innerHTML = value_; 
+}
+
 setupProfile = function()
 {
    var temp_token = localStorage.getItem( "token" );
@@ -103,27 +108,41 @@ document.getElementById("sign-in").onsubmit = function( e )
             }
             else
             {
+                var posts = parseInt( response.live[0][8]);
                 localStorage.setItem( "token", response.data );
                 localStorage.setItem( "email", email_ );
-                alert( response.live );
+                localStorage.setItem( "number_of_posts", posts );
+
                 email1.setCustomValidity("");
                 signIn();
                 var socket = new WebSocket("ws://127.0.0.1:5000/api");
 
                 socket.onopen = function() {
-
-                    socket.send(response.data);
+         
+                   socket.send( email_);
 
                 };
 
-                socket.onmessage = function (evt) {
-                    console.log( evt.data );
-                    if( evt.data === "terminate" ) {
-			            SignOut();
-			            //socket.close();
-                        socket.send("terminate");
-                        console.log("Socket closed")
-		            }
+                socket.onmessage = function (evt) 
+                {
+                   var from_server = JSON.parse( evt.data );
+                   if( from_server.message  === "terminate" ) 
+                   {
+			             SignOut
+			             //socket.close();
+                      socket.send("terminate");
+		             }
+                   else if (  from_server.message === "update recieved post" )
+                   {
+                         var posts = localStorage.getItem( "number_of_posts" );
+                         posts = parseInt( posts ); 
+                         posts = posts + 1;  
+                         localStorage.setItem("number_of_posts", posts);
+                   }
+                   else
+                   {
+                         alert("UNKNOWN MESSAGE FROM SERVER");
+                   }
                  };
 
                 socket.onclose = function() {
@@ -188,6 +207,9 @@ document.getElementById("sign-in").onsubmit = function( e )
 
 init_profile_functions = function()
 {
+var ctx = document.getElementById("myChart").getContext("2d");
+var myDoughnutChart = new Chart(ctx).Doughnut(data); //add chart och skit har!
+
 
    document.getElementById("upload").onclick = function() 
    {

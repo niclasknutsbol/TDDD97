@@ -62,14 +62,13 @@ def log_in():
         print "Token is now "+token
         print "Clients: "
         print clients
-        socket = clients.get(token)
+        socket = clients.get(email)
         if( socket != None):
             print "Socket is not None"
             print type(socket)
-            socket.send("terminate")
+            socket.send( json.dumps( {"message" :"terminate"}))
             print "this is after send in log_in()"
-            clients.pop( token, None )
-            # socket.close()
+            clients.pop( email, None )
 
     response =  sign_in( email, password)
 
@@ -85,19 +84,14 @@ def api():
         ws = request.environ.get('wsgi.websocket')
 
         #First receive is always a token
-        token = ws.receive()
-        clients[ token ] = ws
+        email = ws.receive()
+        clients[ email ] = ws
 
         while True: #May add more functionality later...
            temp = ws.receive()
            if( temp == "terminate" ):
               break;
-    #Debugging
-    print (temp)
-    print "All clients: "
-    print clients
-
-    return ""
+   return ""
 
 @app.route('/sign_up', methods = ['POST'])
 def sign_up():
@@ -283,9 +277,13 @@ def post_message():
     elif result["success"] == None:
        return json.dumps({"success": False, "message": "No such user."})
     else:
-       #find socket and send to receiver if he is online
-       #we should change the key to token from email for users{}!
-       return json.dumps({"success": True, "message": "Posted" })
+       socket = clients.get(email)
+       if( socket != None): #check if receiver is online
+
+           socket.send( json.dumps({"message" : "update recieved post", "data" : result["data"] } ) )
+           #socket.send( "update recieved post")
+           print "socket sending to post to receiver"
+           return json.dumps({"success": True, "message": "Posted" })
 
 #if __name__ == '__main__':
 #    app.run()
