@@ -1,4 +1,6 @@
 .wrapper {
+
+   margin: 0 auto;
 	width: 600px;
 	float: left;
     position: relative;

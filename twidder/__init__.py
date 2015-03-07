@@ -91,7 +91,7 @@ def api():
            temp = ws.receive()
            if( temp == "terminate" ):
               break;
-   return ""
+    return ""
 
 @app.route('/sign_up', methods = ['POST'])
 def sign_up():

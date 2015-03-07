@@ -1,6 +1,62 @@
 var current_view = "welcomeview";
 var min_passw_length = 5;
 var token;
+var myDoughnutChart; 
+var options = {
+    //Boolean - Whether we should show a stroke on each segment
+    segmentShowStroke : true,
+
+    //String - The colour of each segment stroke
+    segmentStrokeColor : "#fff",
+
+    //Number - The width of each segment stroke
+    segmentStrokeWidth : 2,
+
+    //Number - The percentage of the chart that we cut out of the middle
+    percentageInnerCutout : 50, // This is 0 for Pie charts
+
+    //Number - Amount of animation steps
+    animationSteps : 100,
+
+    //String - Animation easing effect
+    animationEasing : "easeOutBounce",
+
+    //Boolean - Whether we animate the rotation of the Doughnut
+    animateRotate : true,
+
+    //Boolean - Whether we animate scaling the Doughnut from the centre
+    animateScale : false,
+
+    //String - A legend template
+    legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%><%=segments[i].label%><%}%></li><%}%></ul>"
+
+}
+
+
+var data = [
+    {
+        value: 10,
+        color:"#F7464A",
+        highlight: "#FF5A5E",
+        label: "# times online"
+    },
+    {
+        value: 20,
+        color: "#46BFBD",
+        highlight: "#5AD3D1",
+        label: "# posts to me"
+    },
+    {
+        value: 30,
+        color: "#FDB45C",
+        highlight: "#FFC870",
+        label: "# posts by me"
+    }
+]
+
+
+
+
 
 displayView = function(view) 
 {
@@ -108,10 +164,17 @@ document.getElementById("sign-in").onsubmit = function( e )
             }
             else
             {
-                var posts = parseInt( response.live[0][8]);
-                localStorage.setItem( "token", response.data );
-                localStorage.setItem( "email", email_ );
-                localStorage.setItem( "number_of_posts", posts );
+               
+               var posts = parseInt( response.live[0][8]);
+               localStorage.setItem( "token", response.data );
+               localStorage.setItem( "email", email_ );
+               localStorage.setItem( "posts_by_me", posts );
+
+
+               myDoughnutChart.segments[0].value = parseInt( response.live[0][7]);
+               myDoughnutChart.segments[1].value = parseInt( response.live[0][8]);  //RED
+               myDoughnutChart.segments[2].value = parseInt( response.live[0][9]); // 
+               myDoughnutChart.update();
 
                 email1.setCustomValidity("");
                 signIn();
@@ -134,10 +197,9 @@ document.getElementById("sign-in").onsubmit = function( e )
 		             }
                    else if (  from_server.message === "update recieved post" )
                    {
-                         var posts = localStorage.getItem( "number_of_posts" );
-                         posts = parseInt( posts ); 
-                         posts = posts + 1;  
-                         localStorage.setItem("number_of_posts", posts);
+                         myDoughnutChart.segments[2].value = from_server.data;
+                         myDoughnutChart.update();
+
                    }
                    else
                    {
@@ -207,10 +269,6 @@ document.getElementById("sign-in").onsubmit = function( e )
 
 init_profile_functions = function()
 {
-var ctx = document.getElementById("myChart").getContext("2d");
-var myDoughnutChart = new Chart(ctx).Doughnut(data); //add chart och skit har!
-
-
    document.getElementById("upload").onclick = function() 
    {
       var file = fileInput.files[0];
@@ -365,6 +423,12 @@ var myDoughnutChart = new Chart(ctx).Doughnut(data); //add chart och skit har!
 
                   }
                   else {
+                         var posts = localStorage.getItem( "posts_by_me" );
+                         posts = parseInt( posts ); 
+                         posts = posts + 1;  
+                         localStorage.setItem("posts_by_me", posts);
+                         myDoughnutChart.segments[1].value = posts;
+                         myDoughnutChart.update();
 
                       }
                   }
@@ -459,6 +523,9 @@ var myDoughnutChart = new Chart(ctx).Doughnut(data); //add chart och skit har!
 //WHEN ONE REFESH
 window.onload = function()
 {
+   var ctx = document.getElementById("myChart").getContext("2d");
+   myDoughnutChart = new Chart(ctx).Doughnut(data,options); 
+
    if( localStorage.getItem( "token" ) === null || localStorage.getItem( "token" ) === undefined ) //NOT LOGIN IN
    {
       current_view = "welcomeview";
